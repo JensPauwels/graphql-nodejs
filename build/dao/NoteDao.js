@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var models_1 = require("../models/");
 // Represents a fake notes database.
 var NoteDao = /** @class */ (function () {
     function NoteDao() {
@@ -27,6 +28,7 @@ var NoteDao = /** @class */ (function () {
             return note;
         };
         this.notes = [];
+        this.addNote(new models_1.Note("54065fca-8040-4b5b-9bf9-e3d290da661d", "Mega note", "New"));
     }
     return NoteDao;
 }());

@@ -13,5 +13,6 @@
   },
  "exclude": [
       "jest.config.js",
+      "tests",
   ]
 }

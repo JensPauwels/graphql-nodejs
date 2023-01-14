@@ -10,3 +10,7 @@ In the future I'll add JWT authentication with refresh tokens and perhaps a real
 #### Build the project:
   `yarn build`
 
+
+#### Start the docker container with live reloading:
+  `docker-compose up`
+

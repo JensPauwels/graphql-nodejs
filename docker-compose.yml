@@ -1,0 +1,19 @@
+version: '1'
+
+services:
+  api:
+    build: 
+      context: .
+      dockerfile: './Dockerfile.dev'
+    container_name: graphql_node
+    image: graphql_node
+    command: yarn start:dev
+    ports:
+        - '4000:4000'
+
+    environment:
+      MODE: DEVELOPMENT
+
+    volumes:
+      - ./src:/app/src
+      - ./build:/app/build

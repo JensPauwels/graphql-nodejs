@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var uuidv4_1 = require("uuidv4");
+var uuid_1 = require("uuid");
 var Author = /** @class */ (function () {
     function Author(id, name) {
-        this.id = id !== null && id !== void 0 ? id : (0, uuidv4_1.uuid)();
+        this.id = id !== null && id !== void 0 ? id : (0, uuid_1.v4)();
         this.name = name !== null && name !== void 0 ? name : '';
         this.notes = [];
     }

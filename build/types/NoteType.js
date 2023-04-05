@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var graphql_1 = require("graphql");
 var AuthorType_1 = __importDefault(require("./AuthorType"));
-var dao_1 = require("../dao");
+var db_1 = require("../db");
 var models_1 = require("../models");
 var NoteType = new graphql_1.GraphQLObjectType({
     name: 'Note',
@@ -18,7 +18,7 @@ var NoteType = new graphql_1.GraphQLObjectType({
             type: AuthorType_1.default,
             resolve: function (note) {
                 var author = new models_1.Author(note.authorId);
-                dao_1.AuthorDao.getById(author);
+                db_1.AuthorDao.getById(author);
                 return author;
             }
         },

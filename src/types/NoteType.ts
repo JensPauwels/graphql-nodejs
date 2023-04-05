@@ -1,6 +1,6 @@
 import { GraphQLObjectType, GraphQLString } from 'graphql';
 import AuthorType from './AuthorType';
-import { AuthorDao } from '../dao';
+import { AuthorDao } from '../db';
 import { Author, type Note } from '../models';
 
 const NoteType: GraphQLObjectType = new GraphQLObjectType({

@@ -1,0 +1,6 @@
+{
+  "DB_USER": "engelendael",
+  "DB_PASSWORD": "makkelijk",
+  "DB": "graphql",
+  "HOST": "127.0.0.1"
+}

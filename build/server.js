@@ -6,8 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var express_graphql_1 = require("express-graphql");
 var graphql_1 = require("graphql");
+var body_parser_1 = __importDefault(require("body-parser"));
 var queries_1 = require("./queries/");
+var middleware_1 = require("./middleware/");
+var controllers_1 = require("./controllers/");
 var app = (0, express_1.default)();
+app.use(body_parser_1.default.json());
 var rootQuery = new graphql_1.GraphQLObjectType({
     name: 'Query',
     description: 'Root query',
@@ -20,7 +24,10 @@ var rootQuery = new graphql_1.GraphQLObjectType({
 var schema = new graphql_1.GraphQLSchema({
     query: rootQuery,
 });
-app.use('/graphql', (0, express_graphql_1.graphqlHTTP)({
+app.post('/auth/register', controllers_1.AuthController.register);
+app.post('/auth/login', controllers_1.AuthController.login);
+app.post('/auth/logout', controllers_1.AuthController.logout);
+app.use('/graphql', middleware_1.validateToken, (0, express_graphql_1.graphqlHTTP)({
     schema: schema,
     rootValue: rootQuery,
     graphiql: true,

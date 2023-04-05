@@ -1,6 +1,6 @@
 import { GraphQLList, GraphQLString } from 'graphql';
 import { NoteType } from '../types'
-import { NoteDao } from '../dao/'
+import { NoteDao } from '../db/'
 
 export const GET_ALL_NOTES = {
   description: 'List of all the notes',

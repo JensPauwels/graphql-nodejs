@@ -1,2 +1,2 @@
-export { default as Bcrypt } from './Bcrypt';
-export { default as JWT } from './JWT';
+export {default as Bcrypt} from './Bcrypt';
+export {default as JWT} from './JWT';

@@ -1,15 +1,23 @@
 import {v4 as uuid} from 'uuid';
-import type Note from './Note';
+import type Todo from './Todo';
+
+export type IAuthor = {
+  id: string;
+  name: string;
+  email: string;
+};
 
 class Author {
 	id: string;
 	name: string;
-	notes: Note[];
+  email: string;
+	todos: Todo[];
 
-	constructor(id?: string, name?: string) {
-		this.id = id ?? uuid();
-		this.name = name ?? '';
-		this.notes = [];
+	constructor(data?: IAuthor) {
+		this.id = data?.id ?? uuid();
+		this.name = data?.name ?? '';
+    this.email = data?.email ?? '';
+		this.todos = [];
 	}
 }
 

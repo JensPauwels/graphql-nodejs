@@ -23,8 +23,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthorQueries = exports.NoteQueries = void 0;
-var NoteQueries = __importStar(require("./NoteQueries"));
-exports.NoteQueries = NoteQueries;
+exports.CategoryQueries = exports.AuthorQueries = exports.TodoQueries = void 0;
+var TodoQueries = __importStar(require("./TodoQueries"));
+exports.TodoQueries = TodoQueries;
 var AuthorQueries = __importStar(require("./AuthorQueries"));
 exports.AuthorQueries = AuthorQueries;
+var CategoryQueries = __importStar(require("./CategoryQueries"));
+exports.CategoryQueries = CategoryQueries;

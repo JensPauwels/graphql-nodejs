@@ -1,7 +1,9 @@
-import * as NoteQueries from './NoteQueries';
+import * as TodoQueries from './TodoQueries';
 import * as AuthorQueries from './AuthorQueries';
+import * as CategoryQueries from './CategoryQueries';
 
 export {
-	NoteQueries,
+	TodoQueries,
 	AuthorQueries,
+  CategoryQueries,
 };

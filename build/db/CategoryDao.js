@@ -55,41 +55,87 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Database_1 = __importDefault(require("./Database"));
-var Author_1 = __importDefault(require("../models/Author"));
-// Represents a fake authors database.
-var AuthorDao = /** @class */ (function (_super) {
-    __extends(AuthorDao, _super);
-    function AuthorDao() {
-        var _this = _super.call(this) || this;
-        _this.addAuthor = function (t) {
-            _this.authors.push(t);
-        };
-        _this.deleteById = function (t) {
-            _this.authors = _this.authors.filter(function (_a) {
-                var id = _a.id;
-                return t.id !== id;
-            });
-        };
-        _this.getAll = function () { return _this.authors; };
-        _this.getById = function (authorID) { return __awaiter(_this, void 0, void 0, function () {
-            var query, authors;
+var Category_1 = __importDefault(require("../models/Category"));
+var CategoryDao = /** @class */ (function (_super) {
+    __extends(CategoryDao, _super);
+    function CategoryDao() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.addCategory = function (category) { return __awaiter(_this, void 0, void 0, function () {
+            var query;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        query = "\n      SELECT id, email, name\n      FROM admin\n      WHERE id = ?\n    ";
-                        return [4 /*yield*/, this.executeQuery(query, [authorID])];
+                        query = "\n      INSERT INTO category(id, name, author_id)\n      VALUES(?, ?, ?)\n    ";
+                        return [4 /*yield*/, this.executeQuery(query, [
+                                category.id,
+                                category.name,
+                                category.authorID,
+                            ])];
                     case 1:
-                        authors = _a.sent();
-                        if (authors.length === 0) {
-                            throw new Error("Failed to retrieve note with id ".concat(authorID));
-                        }
-                        return [2 /*return*/, new Author_1.default(authors[0])];
+                        _a.sent();
+                        return [2 /*return*/];
                 }
             });
         }); };
-        _this.authors = [];
+        _this.deleteById = function (category) { return __awaiter(_this, void 0, void 0, function () {
+            var query;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        query = "\n      DELETE FROM category\n      where id = ?\n    ";
+                        return [4 /*yield*/, this.executeQuery(query, [category.id])];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        }); };
+        _this.getAll = function (authorID) { return __awaiter(_this, void 0, void 0, function () {
+            var query, categorys;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        query = "\n      SELECT id, name, author_id\n      FROM category\n      WHERE author_id = ?\n    ";
+                        return [4 /*yield*/, this.executeQuery(query, [authorID])];
+                    case 1:
+                        categorys = _a.sent();
+                        return [2 /*return*/, categorys.map(function (category) { return new Category_1.default(category); })];
+                }
+            });
+        }); };
+        _this.getById = function (category) { return __awaiter(_this, void 0, void 0, function () {
+            var query, categorys, name;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        query = "\n      SELECT id, author_id, name\n      FROM category\n      WHERE id = ? AND author_id = ?\n    ";
+                        return [4 /*yield*/, this.executeQuery(query, [category.id, category.authorID])];
+                    case 1:
+                        categorys = _a.sent();
+                        if (categorys.length === 0) {
+                            throw new Error("Failed to retrieve category with id ".concat(category.id));
+                        }
+                        name = categorys[0].name;
+                        category.name = name;
+                        return [2 /*return*/];
+                }
+            });
+        }); };
+        _this.updateCategory = function (category) { return __awaiter(_this, void 0, void 0, function () {
+            var query;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        query = "\n      UPDATE category\n      SET name = ?\n      WHERE id = ? AND author_id ?\n    ";
+                        return [4 /*yield*/, this.executeQuery(query, [category.name, category.id, category.authorID])];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        }); };
         return _this;
     }
-    return AuthorDao;
+    return CategoryDao;
 }(Database_1.default));
-exports.default = new AuthorDao();
+exports.default = new CategoryDao();

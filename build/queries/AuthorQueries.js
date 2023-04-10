@@ -9,5 +9,5 @@ exports.GET_ALL_AUTHORS = {
     type: new graphql_1.GraphQLList(types_1.AuthorType),
     resolve: function () {
         return db_1.AuthorDao.authors;
-    }
+    },
 };

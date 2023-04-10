@@ -78,10 +78,12 @@ class AuthController {
 
 			JWT.setToken(res, {
 				authorized: true,
+        author_id: admin.id,
 			});
 
 			res.status(200).json({});
 		} catch (error) {
+      console.log(error);
 			handleError(res, error);
 		}
 	};

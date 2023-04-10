@@ -18,7 +18,7 @@ class JWT {
 		const token = jwt.sign(tokenBody, TOKEN_HASH);
 
 		res.cookie(TOKEN_NAME, token, {
-			domain: 'localhost',
+			domain: 'graphql.local',
 			maxAge: oneWeek,
 			expires: new Date(Date.now() + oneWeek),
 		});

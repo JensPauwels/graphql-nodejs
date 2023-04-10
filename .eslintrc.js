@@ -13,13 +13,14 @@ module.exports = {
 				'*.ts',
 				'*.tsx',
 			],
+			rules: {
+				'@typescript-eslint/naming-convention': 'off',
+        '@typescript-eslint/indent': 'off',
+			},
 		},
 	],
 	parserOptions: {
 		ecmaVersion: 'latest',
 		sourceType: 'module',
-	},
-	rules: {
-		'@typescript-eslint/naming-convention': 'off',
 	},
 };

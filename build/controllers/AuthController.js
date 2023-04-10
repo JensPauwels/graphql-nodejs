@@ -127,12 +127,14 @@ var AuthController = /** @class */ (function () {
                             return [2 /*return*/];
                         }
                         auth_1.JWT.setToken(res, {
-                            authorized: true
+                            authorized: true,
+                            author_id: admin.id,
                         });
                         res.status(200).json({});
                         return [3 /*break*/, 5];
                     case 4:
                         error_3 = _b.sent();
+                        console.log(error_3);
                         (0, error_1.default)(res, error_3);
                         return [3 /*break*/, 5];
                     case 5: return [2 /*return*/];
@@ -145,5 +147,4 @@ var AuthController = /** @class */ (function () {
     }
     return AuthController;
 }());
-;
 exports.default = new AuthController();

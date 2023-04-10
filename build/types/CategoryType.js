@@ -1,19 +1,4 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -54,42 +39,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Database_1 = __importDefault(require("./Database"));
-var Author_1 = __importDefault(require("../models/Author"));
-// Represents a fake authors database.
-var AuthorDao = /** @class */ (function (_super) {
-    __extends(AuthorDao, _super);
-    function AuthorDao() {
-        var _this = _super.call(this) || this;
-        _this.addAuthor = function (t) {
-            _this.authors.push(t);
-        };
-        _this.deleteById = function (t) {
-            _this.authors = _this.authors.filter(function (_a) {
-                var id = _a.id;
-                return t.id !== id;
-            });
-        };
-        _this.getAll = function () { return _this.authors; };
-        _this.getById = function (authorID) { return __awaiter(_this, void 0, void 0, function () {
-            var query, authors;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        query = "\n      SELECT id, email, name\n      FROM admin\n      WHERE id = ?\n    ";
-                        return [4 /*yield*/, this.executeQuery(query, [authorID])];
-                    case 1:
-                        authors = _a.sent();
-                        if (authors.length === 0) {
-                            throw new Error("Failed to retrieve note with id ".concat(authorID));
-                        }
-                        return [2 /*return*/, new Author_1.default(authors[0])];
-                }
-            });
-        }); };
-        _this.authors = [];
-        return _this;
-    }
-    return AuthorDao;
-}(Database_1.default));
-exports.default = new AuthorDao();
+var graphql_1 = require("graphql");
+var TodoType_1 = __importDefault(require("./TodoType"));
+var db_1 = require("../db");
+var CategoryType = new graphql_1.GraphQLObjectType({
+    name: 'Category',
+    fields: function () { return ({
+        id: { type: graphql_1.GraphQLString },
+        name: { type: graphql_1.GraphQLString },
+        todos: {
+            type: new graphql_1.GraphQLList(TodoType_1.default),
+            resolve: function (category, _, context) {
+                return __awaiter(this, void 0, void 0, function () {
+                    return __generator(this, function (_a) {
+                        return [2 /*return*/, db_1.TodoDao.getAllByCategoryID(category.id, context.token.authorID)];
+                    });
+                });
+            },
+        },
+    }); },
+});
+exports.default = CategoryType;

@@ -47,52 +47,57 @@ var settings = process.env.MODE === 'DEVELOPMENT'
 var Database = /** @class */ (function () {
     function Database() {
         var _this = this;
-        this.getConnection = function () {
-            return new Promise(function (resolve, reject) {
-                if (_this.pool === undefined) {
-                    throw new Error(error_1.ERROR.DB_POOL_NOT_INSTANTIATED);
-                }
-                _this.pool.getConnection(function (err, connection) {
-                    if (err) {
-                        reject(err);
-                    }
-                    ;
-                    resolve(connection);
-                });
+        this.getConnection = function () { return __awaiter(_this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, new Promise(function (resolve, reject) {
+                        if (_this.pool === undefined) {
+                            throw new Error(error_1.ERROR.DB_POOL_NOT_INSTANTIATED);
+                        }
+                        _this.pool.getConnection(function (err, connection) {
+                            if (err) {
+                                reject(err);
+                            }
+                            resolve(connection);
+                        });
+                    })];
             });
-        };
-        this.executeQuery = function (query, values) {
-            return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
-                var connection;
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0: return [4 /*yield*/, this.getConnection()];
-                        case 1:
-                            connection = _a.sent();
-                            connection.query(query, values, function (err, results) {
-                                if (err) {
-                                    reject(err);
-                                    return;
-                                }
-                                try {
-                                    resolve(results);
-                                }
-                                catch (err) {
-                                    reject(err);
-                                }
-                                connection.destroy();
-                            });
-                            return [2 /*return*/];
-                    }
-                });
-            }); });
-        };
+        }); };
+        this.executeQuery = function (query, values) { return __awaiter(_this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
+                        var connection;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.getConnection()];
+                                case 1:
+                                    connection = _a.sent();
+                                    connection.query(query, values, function (err, results) {
+                                        if (err) {
+                                            reject(err);
+                                            return;
+                                        }
+                                        try {
+                                            resolve(results);
+                                        }
+                                        catch (err) {
+                                            reject(err);
+                                        }
+                                        connection.destroy();
+                                    });
+                                    return [2 /*return*/];
+                            }
+                        });
+                    }); })];
+            });
+        }); };
         this.pool = mysql2_1.default.createPool({
             host: settings.HOST,
             user: settings.DB_USER,
             password: settings.DB_PASSWORD,
             database: settings.DB,
-            charset: 'utf8mb4'
+            charset: 'utf8mb4',
         });
     }
     return Database;

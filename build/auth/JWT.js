@@ -17,32 +17,32 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TOKEN_NAME = void 0;
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var dayjs_1 = __importDefault(require("dayjs"));
-exports.TOKEN_NAME = "GRAPHQL_TOKEN";
+exports.TOKEN_NAME = 'GRAPHQL_TOKEN';
 var TOKEN_HASH = 'Dit_is-een!secret@key#vo-0rGr@pHQ|';
 var JWT = /** @class */ (function () {
     function JWT() {
-        // setToken sets the signed JWT token as a cookie
+        // SetToken sets the signed JWT token as a cookie
         this.setToken = function (res, tokenData) {
             var oneWeek = 7 * 24 * 3600 * 1000;
             var tokenBody = __assign({ expiring: (0, dayjs_1.default)().add(7, 'd').unix() }, tokenData);
             var token = jsonwebtoken_1.default.sign(tokenBody, TOKEN_HASH);
             res.cookie(exports.TOKEN_NAME, token, {
-                domain: "localhost",
+                domain: 'graphql.local',
                 maxAge: oneWeek,
-                expires: new Date(Date.now() + oneWeek)
+                expires: new Date(Date.now() + oneWeek),
             });
         };
-        // setExpiredCookie overwrites the current token with an expired token, this is a hack to 
+        // SetExpiredCookie overwrites the current token with an expired token, this is a hack to
         // remove the current token
         this.setExpiredCookie = function (res) {
             var tokenBody = {
                 authenticated: false,
-                expiring: Date.now()
+                expiring: Date.now(),
             };
             var token = jsonwebtoken_1.default.sign(tokenBody, TOKEN_HASH);
             res.cookie(exports.TOKEN_NAME, token, {
-                domain: "localhost",
-                maxAge: 0
+                domain: 'localhost',
+                maxAge: 0,
             });
         };
     }

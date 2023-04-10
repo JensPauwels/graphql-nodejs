@@ -1,19 +1,4 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -54,42 +39,74 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Database_1 = __importDefault(require("./Database"));
-var Author_1 = __importDefault(require("../models/Author"));
-// Represents a fake authors database.
-var AuthorDao = /** @class */ (function (_super) {
-    __extends(AuthorDao, _super);
-    function AuthorDao() {
-        var _this = _super.call(this) || this;
-        _this.addAuthor = function (t) {
-            _this.authors.push(t);
-        };
-        _this.deleteById = function (t) {
-            _this.authors = _this.authors.filter(function (_a) {
-                var id = _a.id;
-                return t.id !== id;
-            });
-        };
-        _this.getAll = function () { return _this.authors; };
-        _this.getById = function (authorID) { return __awaiter(_this, void 0, void 0, function () {
-            var query, authors;
+exports.UPDATE_TODO = exports.GET_BY_ID = exports.GET_ALL_CATEGORIES = void 0;
+var graphql_1 = require("graphql");
+var types_1 = require("../types");
+var db_1 = require("../db/");
+var Category_1 = __importDefault(require("../models/Category"));
+exports.GET_ALL_CATEGORIES = {
+    description: 'List of all the categories',
+    type: new graphql_1.GraphQLList(types_1.CategoryType),
+    resolve: function (_, _1, context) {
+        return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                switch (_a.label) {
+                return [2 /*return*/, db_1.CategoryDao.getAll(context.token.authorID)];
+            });
+        });
+    },
+};
+exports.GET_BY_ID = {
+    description: 'Get category by ID',
+    type: types_1.CategoryType,
+    args: {
+        id: { type: graphql_1.GraphQLString },
+    },
+    resolve: function (_, _a, context) {
+        var id = _a.id;
+        return __awaiter(this, void 0, void 0, function () {
+            var category;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        query = "\n      SELECT id, email, name\n      FROM admin\n      WHERE id = ?\n    ";
-                        return [4 /*yield*/, this.executeQuery(query, [authorID])];
+                        category = new Category_1.default({
+                            id: id,
+                            author_id: context.token.authorID,
+                        });
+                        return [4 /*yield*/, db_1.CategoryDao.getById(category)];
                     case 1:
-                        authors = _a.sent();
-                        if (authors.length === 0) {
-                            throw new Error("Failed to retrieve note with id ".concat(authorID));
-                        }
-                        return [2 /*return*/, new Author_1.default(authors[0])];
+                        _b.sent();
+                        return [2 /*return*/, category];
                 }
             });
-        }); };
-        _this.authors = [];
-        return _this;
-    }
-    return AuthorDao;
-}(Database_1.default));
-exports.default = new AuthorDao();
+        });
+    },
+};
+exports.UPDATE_TODO = {
+    type: types_1.CategoryType,
+    args: {
+        id: { type: graphql_1.GraphQLString },
+        name: { type: graphql_1.GraphQLString },
+    },
+    resolve: function (_, _a) {
+        var id = _a.id, name = _a.name;
+        return __awaiter(this, void 0, void 0, function () {
+            var category;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        category = new Category_1.default({
+                            id: id,
+                            name: name,
+                        });
+                        return [4 /*yield*/, db_1.CategoryDao.getById(category)];
+                    case 1:
+                        _b.sent();
+                        return [4 /*yield*/, db_1.CategoryDao.updateCategory(category)];
+                    case 2:
+                        _b.sent();
+                        return [2 /*return*/, category];
+                }
+            });
+        });
+    },
+};
